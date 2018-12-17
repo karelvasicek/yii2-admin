@@ -10,19 +10,19 @@ use yii\helpers\ArrayHelper;
 /**
  * Configs
  * Used for configure some value. To set config you can use [[\yii\base\Application::$params]]
- * 
+ *
  * ~~~
  * return [
- *     
+ *
  *     'mdm.admin.configs' => [
  *         'db' => 'customDb',
  *         'menuTable' => 'admin_menu',
  *     ]
  * ];
  * ~~~
- * 
+ *
  * or use [[\Yii::$container]]
- * 
+ *
  * ~~~
  * Yii::$container->set('mdm\admin\components\Configs',[
  *     'db' => 'customDb',
@@ -33,7 +33,7 @@ use yii\helpers\ArrayHelper;
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
-class Configs extends \yii\base\Object
+class Configs extends \mdm\admin\BaseObject
 {
     /**
      * @var Connection Database connection.
@@ -54,7 +54,7 @@ class Configs extends \yii\base\Object
      * @var string Menu table name.
      */
     public $menuTable = '{{%menu}}';
-    
+
     /**
      * @var self Instance of self
      */

@@ -5,6 +5,7 @@ namespace mdm\admin\controllers;
 use Yii;
 use mdm\admin\models\Assignment;
 use mdm\admin\models\searchs\Assignment as AssignmentSearch;
+use yii\helpers\StringHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -92,13 +93,21 @@ class AssignmentController extends Controller
             $type = $role->type;
             $assigned[$type == Item::TYPE_ROLE ? 'Roles' : 'Permissions'][$role->name] = $role->name;
         }
+        foreach ($authManager->getPermissionsByUser($id) as $permission) {
+            if ($this->isAssignablePermission($permission)) {
+                $assigned['Permissions'][$permission->name] = $permission->name;
+            }
+        }
         foreach ($authManager->getRoles() as $role) {
             if (!isset($assigned['Roles'][$role->name])) {
                 $avaliable['Roles'][$role->name] = $role->name;
             }
         }
         foreach ($authManager->getPermissions() as $role) {
-            if ($role->name[0] !== '/' && !isset($assigned['Permissions'][$role->name])) {
+            if (
+                $this->isAssignablePermission($role) &&
+                !isset($assigned['Permissions'][$role->name])
+            ) {
                 $avaliable['Permissions'][$role->name] = $role->name;
             }
         }
@@ -169,13 +178,21 @@ class AssignmentController extends Controller
             $type = $role->type;
             $assigned[$type == Item::TYPE_ROLE ? 'Roles' : 'Permissions'][$role->name] = $role->name;
         }
+        foreach ($authManager->getPermissionsByUser($id) as $permission) {
+            if ($this->isAssignablePermission($permission)) {
+                $assigned['Permissions'][$permission->name] = $permission->name;
+            }
+        }
         foreach ($authManager->getRoles() as $role) {
             if (!isset($assigned['Roles'][$role->name])) {
                 $avaliable['Roles'][$role->name] = $role->name;
             }
         }
         foreach ($authManager->getPermissions() as $role) {
-            if ($role->name[0] !== '/' && !isset($assigned['Permissions'][$role->name])) {
+            if (
+                $this->isAssignablePermission($role) &&
+                !isset($assigned['Permissions'][$role->name])
+            ) {
                 $avaliable['Permissions'][$role->name] = $role->name;
             }
         }
@@ -214,5 +231,13 @@ class AssignmentController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    protected function isAssignablePermission($permission)
+    {
+        return (
+            !StringHelper::startsWith($permission->name, '/') &&
+            !StringHelper::startsWith($permission->name, 'block_')
+        );
     }
 }

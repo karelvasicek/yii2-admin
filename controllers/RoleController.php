@@ -4,6 +4,7 @@ namespace mdm\admin\controllers;
 
 use mdm\admin\models\AuthItem;
 use mdm\admin\models\searchs\AuthItem as AuthItemSearch;
+use mdm\admin\models\searchs\Assignment as AssignmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,7 +21,9 @@ use yii\helpers\Html;
  */
 class RoleController extends Controller
 {
-
+    public $usernameField = 'username';
+    public $idField = 'id';
+    
     /**
      * @inheritdoc
      */
@@ -89,10 +92,30 @@ class RoleController extends Controller
         }
         $avaliable = array_filter($avaliable);
         $assigned = array_filter($assigned);
-
-        return $this->render('view', ['model' => $model, 'avaliable' => $avaliable, 'assigned' => $assigned]);
+        
+        // list users for a certain role
+        $userIds = $authManager->getUserIdsByRole($model->name, true);
+        $searchModel = new AssignmentSearch;
+        $searchModel->id = empty($userIds) ? -1 : $userIds;
+        
+        $dataProvider = $searchModel->search(
+            Yii::$app->request->getQueryParams(),
+            Yii::$app->getUser()->identityClass,
+            $this->usernameField,
+            $this->idField
+            );
+        
+        return $this->render('view',
+            [
+                'model' => $model,
+                'avaliable' => $avaliable,
+                'assigned' => $assigned,
+                'searchModel'=> $searchModel,
+                'dataProvider' => $dataProvider,
+                'usernameField' => $this->usernameField
+            ]);
     }
-
+    
     /**
      * Creates a new AuthItem model.
      * If creation is successful, the browser will be redirected to the 'view' page.

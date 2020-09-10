@@ -43,21 +43,28 @@ class Assignment extends Model
      * @param  array                        $params
      * @param  \yii\db\ActiveRecord         $class
      * @param  string                       $usernameField
+     * @param  string                       $idField
      * @return \yii\data\ActiveDataProvider
      */
-    public function search($params, $class, $usernameField)
+    public function search($params, $class, $usernameField, $idField = null)
     {
         $query = $class::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
-        if (!($this->load($params) && $this->validate())) {
+        
+        $this->load($params);
+        
+        if (!$this->validate()) {
             return $dataProvider;
         }
-
+        
         $query->andFilterWhere(['like', $usernameField, $this->username]);
-
+        
+        if (!empty($idField)) {
+            $query->andFilterWhere(['id' => $this->id]);
+        }
+        
         return $dataProvider;
     }
 }

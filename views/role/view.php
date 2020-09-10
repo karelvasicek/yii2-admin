@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 /**
  * @var yii\web\View $this
@@ -66,6 +68,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'style' => 'width:100%']);
         ?>
     </div>
+    <?php 
+        Pjax::begin([
+            'enablePushState'=>false,
+        ]);
+        echo GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                [
+                    'class' => 'yii\grid\DataColumn',
+                    'attribute' => $usernameField,
+                ]
+            ],
+        ]);
+        Pjax::end();
+    ?>
 </div>
 <?php
 $this->render('_script',['name'=>$model->name]);

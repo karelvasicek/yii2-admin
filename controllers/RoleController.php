@@ -115,7 +115,7 @@ class RoleController extends Controller
                 'usernameField' => $this->usernameField
             ]);
     }
-    
+
     /**
      * Creates a new AuthItem model.
      * If creation is successful, the browser will be redirected to the 'view' page.

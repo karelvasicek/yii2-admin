@@ -58,7 +58,7 @@ class Assignment extends Model
         if (!$this->validate()) {
             return $dataProvider;
         }
-        
+
         $query->andFilterWhere(['like', $usernameField, $this->username]);
         
         if (!empty($idField)) {

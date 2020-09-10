@@ -94,7 +94,7 @@ class RoleController extends Controller
         $assigned = array_filter($assigned);
         
         // list users for a certain role
-        $userIds = $authManager->getUserIdsByRole($model->name, true);
+        $userIds = $authManager->getUserIdsByRole($model->name);
         $searchModel = new AssignmentSearch;
         $searchModel->id = empty($userIds) ? -1 : $userIds;
         

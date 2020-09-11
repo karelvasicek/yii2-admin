@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\rbac\Item;
 use Yii;
 use mdm\admin\components\MenuHelper;
+use mdm\admin\components\RoleHelper;
 use yii\helpers\Html;
 
 /**
@@ -94,7 +95,7 @@ class RoleController extends Controller
         $assigned = array_filter($assigned);
         
         // list users for a certain role
-        $userIds = $authManager->getUserIdsByRole($model->name);
+        $userIds = RoleHelper::getUserIdsByRoleRecurcively($model->name);
         $searchModel = new AssignmentSearch;
         $searchModel->id = empty($userIds) ? -1 : $userIds;
         

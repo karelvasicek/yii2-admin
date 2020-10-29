@@ -68,6 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'style' => 'width:100%']);
         ?>
     </div>
+    <h1><?= Yii::t('rbac-admin', 'Users') ?></h1>
     <div class="col-lg-11">
         <?php
         Pjax::begin([

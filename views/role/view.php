@@ -68,9 +68,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'style' => 'width:100%']);
         ?>
     </div>
-    <?php 
+    <div class="col-lg-11">
+        <?php
         Pjax::begin([
-            'enablePushState'=>false,
+            'enablePushState' => false,
         ]);
         echo GridView::widget([
             'dataProvider' => $dataProvider,
@@ -84,7 +85,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]);
         Pjax::end();
-    ?>
+        ?>
+    </div>
 </div>
 <?php
 $this->render('_script',['name'=>$model->name]);

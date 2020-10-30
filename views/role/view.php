@@ -68,8 +68,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'style' => 'width:100%']);
         ?>
     </div>
-    <h1><?= Yii::t('rbac-admin', 'Users') ?></h1>
-    <div class="col-lg-11">
+    <h2><?= Yii::t('rbac-admin', 'Users') ?></h2>
+    <div class="col-lg-12">
         <?php
         Pjax::begin([
             'enablePushState' => false,
@@ -82,6 +82,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class' => 'yii\grid\DataColumn',
                     'attribute' => $usernameField,
+                ],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template'=>'{view}'
                 ]
             ],
         ]);

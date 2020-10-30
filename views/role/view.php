@@ -88,9 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'yii\grid\ActionColumn',
                     'template' => '{view}',
                     'urlCreator' => function($action, $model, $key, $index) {
-
                         if ($action == "view") {
-
                             return Url::to(['assignment/view', 'id' => $model->id]);
                         }
                     }

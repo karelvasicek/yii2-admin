@@ -69,8 +69,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'style' => 'width:100%']);
         ?>
     </div>
-    <h2><?= Yii::t('rbac-admin', 'Users') ?></h2>
     <div class="col-lg-12">
+        <h2><?= Yii::t('rbac-admin', 'Users') ?></h2>
         <?php
         Pjax::begin([
             'enablePushState' => false,

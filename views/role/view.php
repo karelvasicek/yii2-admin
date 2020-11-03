@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
+use yii\widgets\Pjax;
+use yii\helpers\Url;
 
 /**
  * @var yii\web\View $this
@@ -64,6 +67,35 @@ $this->params['breadcrumbs'][] = $this->title;
             'multiple' => true,
             'size' => 20,
             'style' => 'width:100%']);
+        ?>
+    </div>
+    <h2><?= Yii::t('rbac-admin', 'Users') ?></h2>
+    <div class="col-lg-12">
+        <?php
+        Pjax::begin([
+            'enablePushState' => false,
+        ]);
+        echo GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                [
+                    'class' => 'yii\grid\DataColumn',
+                    'attribute' => $usernameField,
+                ],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{view}',
+                    'urlCreator' => function($action, $model, $key, $index) {
+                        if ($action == "view") {
+                            return Url::to(['assignment/view', 'id' => $model->id]);
+                        }
+                    }
+                ]
+            ],
+        ]);
+        Pjax::end();
         ?>
     </div>
 </div>
